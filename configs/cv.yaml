@@ -1,0 +1,28 @@
+# EduInsight AI — Cross-Validation & Evaluation Protocol Configuration
+# Reference: EduInsight_AI_Implementation_Plan.md Section 7 & Section 11
+
+cross_validation:
+  design: "Repeated Stratified Grouped K-Fold"
+  outer_folds: 5
+  repeats: 3
+  seed: 42
+  grouping_key: "student_group_id"
+  stratification:
+    classification: "at_risk"
+    regression: "binned_G3 (5 bins)"
+
+statistical_testing:
+  paired_test: "Nadeau-Bengio Corrected Resampled t-test"
+  multiple_testing_correction:
+    hypotheses: "Holm-Bonferroni step-down"
+    feature_associations: "Benjamini-Hochberg False Discovery Rate (FDR, q < 0.05)"
+  confidence_intervals:
+    bootstrap_iterations: 1000
+    subgroup_bootstrap_iterations: 500
+    alpha: 0.05
+
+calibration_and_uncertainty:
+  conformal_method: "Split Conformal Prediction"
+  nominal_coverage: 0.90
+  calibration_quantile: "Vovk quantile ceiling((n+1)(1-alpha))/n"
+  ece_bins: 10

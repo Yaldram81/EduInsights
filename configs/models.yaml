@@ -1,0 +1,51 @@
+# EduInsight AI — Model Zoo Configuration
+# Reference: EduInsight_AI_Implementation_Plan.md Section 6 & Section 11
+
+classification:
+  baselines:
+    - id: "majority"
+      name: "Majority Class Baseline"
+      description: "Always predicts the empirical majority class (pass)"
+    - id: "rule"
+      name: "Heuristic Risk Rule"
+      description: "Flags at-risk if past failures >= 1 or absences > median"
+
+  linear:
+    - id: "logistic"
+      name: "L2-Regularized Logistic Regression"
+      solver: "IRLS (Iteratively Reweighted Least Squares)"
+      penalty: "L2"
+      lambda: 1.0
+      convergence_tolerance: 1e-4
+      max_iterations: 25
+
+  tree_based:
+    - id: "tree"
+      name: "Histogram CART Decision Tree"
+      max_depth: 4
+      min_samples_leaf: 5
+      n_bins: 10
+    - id: "forest"
+      name: "Bagged Decision Forest"
+      n_estimators: 25
+      max_depth: 4
+      subsample_ratio: 0.85
+      feature_subsample_ratio: 0.80
+
+regression:
+  baselines:
+    - id: "mean"
+      name: "Mean Grade Baseline"
+      description: "Predicts the empirical mean G3 of the training fold"
+    - id: "g1rule"
+      name: "G3 = G1 Rule"
+      description: "Direct identity heuristic from period 1 grade (available at S3/S4)"
+    - id: "g2rule"
+      name: "G3 = G2 Rule"
+      description: "Direct identity heuristic from period 2 grade (available at S4)"
+
+  linear:
+    - id: "ridge"
+      name: "Ridge Regression"
+      alpha: 1.0
+      solver: "Cholesky Decomposition with jitter"

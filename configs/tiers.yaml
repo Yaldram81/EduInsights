@@ -1,0 +1,91 @@
+# EduInsight AI — Information Tier Registry
+# Defines the information tiers (T0-T4) and cumulative information sets (S0-S4, S2-noabs)
+# Reference: EduInsight_AI_Implementation_Plan.md Section 4 & Section 12.1
+
+target: G3
+pass_mark: 10
+
+groups:
+  T0:
+    name: "Background (demographic, family, school context)"
+    meaning: "Known at enrolment — before any academic or course behaviour is observed"
+    features:
+      - sex
+      - age
+      - address
+      - famsize
+      - Pstatus
+      - school
+      - reason
+      - traveltime
+      - Medu
+      - Fedu
+      - Mjob
+      - Fjob
+      - guardian
+
+  T1:
+    name: "History and support"
+    meaning: "Academic history and external support accumulated prior to the current course"
+    features:
+      - failures
+      - nursery
+      - higher
+      - schoolsup
+      - famsup
+      - paid
+      - activities
+
+  T2:
+    name: "Behavior and attendance"
+    meaning: "Behavioral patterns, habits, and attendance during the ongoing academic term"
+    features:
+      - studytime
+      - freetime
+      - goout
+      - Dalc
+      - Walc
+      - health
+      - romantic
+      - internet
+      - famrel
+      - absences
+
+  T3:
+    name: "First period grade"
+    meaning: "First official graded academic checkpoint (scale 0-20)"
+    features:
+      - G1
+
+  T4:
+    name: "Second period grade"
+    meaning: "Second official graded academic checkpoint (scale 0-20), near-oracle predictor"
+    features:
+      - G2
+
+sets:
+  S0:
+    name: "Enrolment Context"
+    description: "T0 demographics, family background, and institutional choice"
+    tiers: [T0]
+  S1:
+    name: "Background + History"
+    description: "T0 + T1 prior academic history, failures, and educational support"
+    tiers: [T0, T1]
+  S2:
+    name: "Early Term (Pre-Exam)"
+    description: "T0 + T1 + T2 full pre-exam behavioral and contextual profile"
+    tiers: [T0, T1, T2]
+  S3:
+    name: "Mid-Term (Post-G1)"
+    description: "S2 + T3 first-period grade checkpoint"
+    tiers: [T0, T1, T2, T3]
+  S4:
+    name: "Late-Term (Post-G2)"
+    description: "S2 + T3 + T4 second-period grade checkpoint (near-oracle)"
+    tiers: [T0, T1, T2, T3, T4]
+  S2-noabs:
+    name: "S2 Sensitivity (No Absences)"
+    description: "S2 omitting cumulative absences to test temporal availability assumptions"
+    tiers: [T0, T1, T2]
+    exclude: [absences]

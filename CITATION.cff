@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software or benchmark protocol, please cite it as below."
+authors:
+  - family-names: "Ur Rahman"
+    given-names: "Tanzeel"
+    affiliation: "EduInsight AI Research Initiative"
+  - family-names: "Ali"
+    given-names: "Sadeed"
+    affiliation: "EduInsight AI Research Initiative"
+  - family-names: "Arshad"
+    given-names: "Shakeel"
+    affiliation: "EduInsight AI Research Initiative"
+title: "EduInsight AI: Beyond Accuracy — A Leakage-Safe, Calibrated and Explanation-Stable Evaluation of Early Student-Risk Prediction"
+version: 1.0.0
+date-released: 2026-10-10
+url: "https://github.com/tanzeel/eduinsight-ai"
+keywords:
+  - educational-data-mining
+  - learning-analytics
+  - explainable-ai
+  - trustworthy-ml
+  - student-risk-prediction
+  - conformal-prediction
+  - calibration
+license: MIT

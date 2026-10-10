@@ -1,0 +1,87 @@
+// EduInsight AI — experiment & prediction metadata store
+// Schema adapted from plan §13.4 (datasets, models, experiments, predictions, explanations)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Dataset {
+  id        String   @id @default(cuid())
+  name      String // "UCI Student Performance (Mathematics)"
+  subject   String   @unique // math | por
+  sourceUrl String
+  license   String
+  version   String
+  sha256    String
+  nRows     Int
+  nFeatures Int
+  nZeroG3   Int
+  notes     String?
+  createdAt DateTime @default(now())
+}
+
+model ModelRecord {
+  id          String   @id @default(cuid())
+  name        String // e.g. "Logistic (L2)"
+  family      String // baseline | linear | tree | ensemble
+  task        String // classification | regression
+  infoSets    String // JSON array of info sets the model is used with
+  hyperParams String // JSON
+  notes       String?
+  createdAt   DateTime @default(now())
+}
+
+model ExperimentRun {
+  id         String   @id @default(cuid())
+  code       String // E1 | E2 | ... | STABILITY | ABLATION | TRANSFER | POOLED
+  subject    String // math | por | both
+  task       String // classification | regression
+  infoSet    String // S0 | S1 | S2 | S3 | S4 | S2-noabs
+  model      String
+  target     String // at_risk | G3
+  nRows      Int
+  metricName String // primary metric for this run
+  metrics    String // JSON — all metrics {mean, sd, ci:[lo,hi]}
+  foldScores String // JSON — [{rep, fold, primary, secondary..., oof?}]
+  oofProbs   String? // JSON — out-of-fold probabilities for primary-model runs (for interactive charts)
+  config     String // JSON — seed, cv design, nFeatures, featureHash, gitRef
+  createdAt  DateTime @default(now())
+
+  @@unique([code, subject, task, infoSet, model])
+  @@index([subject, task])
+  @@index([code])
+}
+
+model Prediction {
+  id           String        @id @default(cuid())
+  subject      String
+  infoSet      String
+  model        String
+  modelVersion String
+  features     String // JSON payload — feature values only, no PII
+  probability  Float
+  logOdds      Float
+  intervalLow  Float
+  intervalHigh Float
+  conformalSet String // JSON array of candidate labels
+  riskLevel    String // lower | moderate | higher | uncertain
+  createdAt    DateTime      @default(now())
+
+  explanations Explanation[]
+}
+
+model Explanation {
+  id           String     @id @default(cuid())
+  predictionId String
+  prediction   Prediction @relation(fields: [predictionId], references: [id], onDelete: Cascade)
+  feature      String
+  value        String
+  contribution Float // log-odds contribution
+  direction    String // toward_risk | away_from_risk
+  rank         Int
+}

@@ -1,0 +1,294 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ---------------------------------------------------------------------------
+   EduInsight AI — "Obsidian & Champagne" design system
+   Tailwind v4 CSS-first configuration. Dark is the default theme;
+   light ("Ivory & Ink") is applied via [data-theme="light"].
+--------------------------------------------------------------------------- */
+
+@theme inline {
+  /* ---- shadcn/ui mappings (kept so src/components/ui keeps working) ---- */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* ---- EduInsight surface tokens ---- */
+  --color-canvas: var(--bg-0);
+  --color-section: var(--bg-1);
+  --color-surface: var(--bg-2);
+  --color-raised: var(--bg-3);
+  --color-hover-surface: var(--bg-4);
+  --color-hairline: var(--line-1);
+  --color-hairline-strong: var(--line-2);
+
+  /* ---- ink ---- */
+  --color-ink-1: var(--text-1);
+  --color-ink-2: var(--text-2);
+  --color-ink-3: var(--text-3);
+  --color-ink-4: var(--text-4);
+
+  /* ---- champagne gold ---- */
+  --color-gold-300: var(--gold-300);
+  --color-gold-400: var(--gold-400);
+  --color-gold-500: var(--gold-500);
+  --color-gold-600: var(--gold-600);
+  --color-gold-700: var(--gold-700);
+
+  /* ---- semantic jewel tones ---- */
+  --color-emerald: var(--emerald);
+  --color-amber: var(--amber);
+  --color-ruby: var(--ruby);
+  --color-sapphire: var(--sapphire);
+
+  /* ---- type ---- */
+  --font-display: var(--font-fraunces), Georgia, serif;
+
+  /* ---- elevation ---- */
+  --shadow-e2: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-e3: 0 24px 64px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 0 4px var(--gold-glow);
+
+  /* ---- motion ---- */
+  --ease-silk: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-aperture: aperture 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-shimmer: shimmer 1.8s infinite;
+
+  @keyframes aperture {
+    from {
+      transform: scaleX(0);
+    }
+  }
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ tokens */
+
+:root {
+  /* surfaces */
+  --bg-0: #07080b;
+  --bg-1: #0b0d12;
+  --bg-2: #10131a;
+  --bg-3: #161a23;
+  --bg-4: #1d222d;
+  --line-1: #1f2430;
+  --line-2: #2a3040;
+  /* ink */
+  --text-1: #f3efe6;
+  --text-2: #b9b4a8;
+  --text-3: #827e74;
+  --text-4: #5b5851;
+  /* champagne */
+  --gold-300: #f1dfb0;
+  --gold-400: #e4c98a;
+  --gold-500: #d4af6a;
+  --gold-600: #b8924a;
+  --gold-700: #8c6c33;
+  --gold-glow: rgba(212, 175, 106, 0.18);
+  /* semantic */
+  --emerald: #4fb58a;
+  --amber: #e0a84b;
+  --ruby: #d9576b;
+  --sapphire: #6c8bea;
+  /* gradients */
+  --grad-aperture: linear-gradient(90deg, transparent, var(--gold-500), transparent);
+  --grad-gold: linear-gradient(135deg, #f1dfb0 0%, #d4af6a 45%, #8c6c33 100%);
+  --grad-sheen: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0) 40%);
+  --grad-canvas:
+    radial-gradient(1200px 600px at 80% -10%, rgba(212, 175, 106, 0.08), transparent 60%),
+    radial-gradient(900px 500px at 0% 0%, rgba(108, 139, 234, 0.06), transparent 55%);
+
+  /* shadcn variable mapping — dark (default) */
+  --radius: 0.625rem;
+  --background: #07080b;
+  --foreground: #f3efe6;
+  --card: #10131a;
+  --card-foreground: #f3efe6;
+  --popover: #161a23;
+  --popover-foreground: #f3efe6;
+  --primary: #d4af6a;
+  --primary-foreground: #1a1405;
+  --secondary: #1d222d;
+  --secondary-foreground: #f3efe6;
+  --muted: #161a23;
+  --muted-foreground: #b9b4a8;
+  --accent: #1d222d;
+  --accent-foreground: #f3efe6;
+  --destructive: #d9576b;
+  --border: #1f2430;
+  --input: #2a3040;
+  --ring: #e4c98a;
+  --chart-1: #d4af6a;
+  --chart-2: #6c8bea;
+  --chart-3: #4fb58a;
+  --chart-4: #c07fd6;
+  --chart-5: #9ba3b5;
+  --sidebar: #0b0d12;
+  --sidebar-foreground: #f3efe6;
+  --sidebar-primary: #d4af6a;
+  --sidebar-primary-foreground: #1a1405;
+  --sidebar-accent: #1d222d;
+  --sidebar-accent-foreground: #f3efe6;
+  --sidebar-border: #1f2430;
+  --sidebar-ring: #e4c98a;
+}
+
+[data-theme="light"] {
+  /* surfaces */
+  --bg-0: #f7f4ec;
+  --bg-1: #fbf9f3;
+  --bg-2: #ffffff;
+  --bg-3: #f1ede2;
+  --bg-4: #eae4d4;
+  --line-1: #e6e0d0;
+  --line-2: #d8d1bd;
+  /* ink */
+  --text-1: #16130c;
+  --text-2: #4d483c;
+  --text-3: #7c766a;
+  --text-4: #a8a294;
+  /* champagne — darkened for contrast on ivory */
+  --gold-500: #9a7430;
+  --gold-400: #b8924a;
+  --gold-glow: rgba(154, 116, 48, 0.18);
+
+  /* shadcn variable mapping — light */
+  --background: #f7f4ec;
+  --foreground: #16130c;
+  --card: #ffffff;
+  --card-foreground: #16130c;
+  --popover: #ffffff;
+  --popover-foreground: #16130c;
+  --primary: #9a7430;
+  --primary-foreground: #ffffff;
+  --secondary: #f1ede2;
+  --secondary-foreground: #16130c;
+  --muted: #f1ede2;
+  --muted-foreground: #4d483c;
+  --accent: #f1ede2;
+  --accent-foreground: #16130c;
+  --destructive: #c23a50;
+  --border: #e6e0d0;
+  --input: #d8d1bd;
+  --ring: #b8924a;
+}
+
+/* ------------------------------------------------------------- base layer */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  [data-theme="light"] {
+    color-scheme: light;
+  }
+
+  body {
+    background: var(--bg-0);
+    color: var(--text-1);
+    font-family: var(--font-geist-sans), system-ui, sans-serif;
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+/* tabular, lining numerals for every metric */
+.num {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold-400);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--gold-glow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* -------------------------------------------------------- utility classes */
+
+/* Observatory canvas: champagne/sapphire radials + faint constellation grid */
+.canvas-atmosphere {
+  background-image:
+    var(--grad-canvas),
+    radial-gradient(rgba(243, 239, 230, 0.05) 1px, transparent 1px);
+  background-size:
+    auto,
+    32px 32px;
+}
+
+/* Glass — top bar, floating toolbars, command palette only */
+.glass {
+  background: rgba(16, 19, 26, 0.65);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="light"] .glass {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(22, 19, 12, 0.08);
+}
+
+.grad-gold {
+  background: var(--grad-gold);
+}
+
+.grad-sheen {
+  background: var(--grad-sheen);
+}
